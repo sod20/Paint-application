@@ -7,6 +7,7 @@
 package paintapplication;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -41,6 +42,7 @@ public class JDrawFrame extends JFrame implements ActionListener{
         Dimension DimMax = Toolkit.getDefaultToolkit().getScreenSize();
         super.setMaximumSize(DimMax);
         super.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        super.setMinimumSize( new Dimension(800, 600) );
         
         this.fc = new JFileChooser();
         this.fc.addChoosableFileFilter( new FileNameExtensionFilter("Archivos de Imagen", "png", "jpg", "jpeg", "bmp") );
@@ -105,7 +107,7 @@ public class JDrawFrame extends JFrame implements ActionListener{
     private void createToolbar()
     {
         JToolBar toolbar = new JToolBar();
-        ImageIcon iconPen = new ImageIcon( "images/pencil.png" );
+        ImageIcon iconPen = new ImageIcon( "images/tool_pencil.png" );
         ImageIcon iconRedo = new ImageIcon( "images/do_redo.png" );
         ImageIcon iconUndo = new ImageIcon( "images/do_undo.png" );
         ImageIcon iconBrush = new ImageIcon( "images/tool_brush.png" );
