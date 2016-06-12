@@ -107,16 +107,42 @@ public class JDrawFrame extends JFrame implements ActionListener{
     private void createToolbar()
     {
         JToolBar toolbar = new JToolBar();
-        ImageIcon iconPen = new ImageIcon( "images/tool_pencil.png" );
-        ImageIcon iconRedo = new ImageIcon( "images/do_redo.png" );
-        ImageIcon iconUndo = new ImageIcon( "images/do_undo.png" );
-        ImageIcon iconBrush = new ImageIcon( "images/tool_brush.png" );
-        
         ButtonGroup group = new ButtonGroup();
-        group.add( this.createToolButton( toolbar, iconPen, true, CommandNames.COMMAND_PEN_BUTTON) );
-        group.add( this.createToolButton( toolbar, iconBrush, true, CommandNames.COMMAND_BRUSH_BUTTON) );
+        
+        ImageIcon iconNew = new ImageIcon( "images/doc_new.png" );
+        ImageIcon iconSave = new ImageIcon( "images/doc_save.png" );
+        ImageIcon iconExport = new ImageIcon( "images/doc_export.png" );
+        ImageIcon iconPrint = new ImageIcon( "images/doc_print.png" );
+
+        group.add( this.createToolButton( toolbar, iconNew, true, CommandNames.COMMAND_NEW_BUTTON) );
+        group.add( this.createToolButton( toolbar, iconSave, true, CommandNames.COMMAND_SAVE_BUTTON) );
+        group.add( this.createToolButton( toolbar, iconExport, true, CommandNames.COMMAND_EXPORT_BUTTON) );
+        group.add( this.createToolButton( toolbar, iconPrint, true, CommandNames.COMMAND_PRINT_BUTTON) );
+        
+        toolbar.addSeparator();
+        ImageIcon iconUndo = new ImageIcon( "images/do_undo.png" );
+        ImageIcon iconRedo = new ImageIcon( "images/do_redo.png" );
         group.add( this.createToolButton( toolbar, iconUndo, true, CommandNames.COMMAND_UNDO_BUTTON) );
         group.add( this.createToolButton( toolbar, iconRedo, true, CommandNames.COMMAND_REDO_BUTTON) );
+        
+        toolbar.addSeparator();
+        ImageIcon iconPen = new ImageIcon( "images/tool_pencil.png" );
+        ImageIcon iconBrush = new ImageIcon( "images/tool_brush.png" );
+        group.add( this.createToolButton( toolbar, iconPen, true, CommandNames.COMMAND_PEN_BUTTON) );
+        group.add( this.createToolButton( toolbar, iconBrush, true, CommandNames.COMMAND_BRUSH_BUTTON) );
+        
+        
+        toolbar.addSeparator();
+        ImageIcon iconLine = new ImageIcon( "images/tool_line.png" );
+        ImageIcon iconRectangle = new ImageIcon( "images/shape_rectangle.png" );
+        ImageIcon iconCircle = new ImageIcon( "images/shape_circle.png" );
+        ImageIcon iconPolygon = new ImageIcon( "images/shape_polygon.png" );
+        ImageIcon iconPolyline = new ImageIcon( "images/shape_polyline.png" );
+        group.add( this.createToolButton( toolbar, iconLine, true, CommandNames.COMMAND_LINE_BUTTON) );
+        group.add( this.createToolButton( toolbar, iconRectangle, true, CommandNames.COMMAND_RECTANGLE_BUTTON) );
+        group.add( this.createToolButton( toolbar, iconCircle, true, CommandNames.COMMAND_CIRCLE_BUTTON) );
+        group.add( this.createToolButton( toolbar, iconPolygon, true, CommandNames.COMMAND_POLYGON_BUTTON) );
+        group.add( this.createToolButton( toolbar, iconPolyline, true, CommandNames.COMMAND_POLYLINE_BUTTON) );
         
         this.add( toolbar, BorderLayout.PAGE_START );
     }
