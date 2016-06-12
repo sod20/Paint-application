@@ -44,10 +44,6 @@ public class MenuStructure
         itemsEdicion.add( new MenuObject(CommandNames.CAPTION_ITEM_COPIAR, KeyEvent.VK_C, KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK) ) );
         itemsEdicion.add( new MenuObject(CommandNames.CAPTION_ITEM_PEGAR, KeyEvent.VK_P, KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK) ) );
         itemsEdicion.add( new MenuObject(CommandNames.CAPTION_ITEM_BORRAR, KeyEvent.VK_B, KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.CTRL_MASK)) );
-        itemsEdicion.add( separator );
-        itemsEdicion.add( new MenuObject(CommandNames.CAPTION_ITEM_SELECCIONAR_TODO, KeyEvent.VK_S, KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK)) );
-        
-        
         MenuStructure.structure.put(edicion, itemsEdicion);
         
         MenuObject ayuda = new MenuObject(CommandNames.CAPTION_MENU_AYUDA, KeyEvent.VK_Y );

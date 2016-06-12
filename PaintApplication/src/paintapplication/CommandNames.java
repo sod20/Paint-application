@@ -6,7 +6,7 @@ package paintapplication;
 
 /**
  *
- * @author pablo
+ * @author Alejandro Naranjo
  */
 public class CommandNames{
     
