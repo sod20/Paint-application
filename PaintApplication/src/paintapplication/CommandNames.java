@@ -42,5 +42,10 @@ public class CommandNames{
     public static final String COMMAND_CIRCLE_BUTTON = "circulo";
     public static final String COMMAND_POLYGON_BUTTON = "poligono";
     public static final String COMMAND_POLYLINE_BUTTON = "polilinea";
+    
+    public static final String COMMAND_COLOR_RED = "colorRojo";
+    public static final String COMMAND_COLOR_YELLOW = "colorAmarillo";
+    public static final String COMMAND_COLOR_BLUE = "colorAzul";
+    public static final String COMMAND_COLOR_BLACK = "colorNegro";
 }
 

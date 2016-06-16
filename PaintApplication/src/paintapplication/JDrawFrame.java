@@ -27,6 +27,11 @@ public class JDrawFrame extends JFrame implements ActionListener{
     private JPaintPanel panel;
     private JScrollPane scroll;
     
+    private int PEN = 22;
+    private int CIRCLE = 33;
+    private int RECTANGLE = 44;
+    private int LINE = 55;
+    
     public JDrawFrame(){
         super( "Aplicación de Dibujo" );
         
@@ -108,6 +113,7 @@ public class JDrawFrame extends JFrame implements ActionListener{
     {
         JToolBar toolbar = new JToolBar();
         ButtonGroup group = new ButtonGroup();
+        ButtonGroup groupColor = new ButtonGroup();
         
         ImageIcon iconNew = new ImageIcon( "images/doc_new.png" );
         ImageIcon iconSave = new ImageIcon( "images/doc_save.png" );
@@ -144,6 +150,16 @@ public class JDrawFrame extends JFrame implements ActionListener{
         group.add( this.createToolButton( toolbar, iconPolygon, true, CommandNames.COMMAND_POLYGON_BUTTON) );
         group.add( this.createToolButton( toolbar, iconPolyline, true, CommandNames.COMMAND_POLYLINE_BUTTON) );
         
+        toolbar.addSeparator();
+        ImageIcon iconBlack = new ImageIcon( "images/color_black.png" );
+        ImageIcon iconRed = new ImageIcon( "images/color_red.png" );
+        ImageIcon iconBlue = new ImageIcon( "images/color_blue.png" );
+        ImageIcon iconYellow = new ImageIcon( "images/color_yellow.png" );
+        groupColor.add( this.createToolButton( toolbar, iconBlack, true, CommandNames.COMMAND_COLOR_BLACK) );
+        groupColor.add( this.createToolButton( toolbar, iconBlue, true, CommandNames.COMMAND_COLOR_BLUE) );
+        groupColor.add( this.createToolButton( toolbar, iconYellow, true, CommandNames.COMMAND_COLOR_YELLOW) );
+        groupColor.add( this.createToolButton( toolbar, iconRed, true, CommandNames.COMMAND_COLOR_RED) );
+        
         this.add( toolbar, BorderLayout.PAGE_START );
     }
     
@@ -161,16 +177,41 @@ public class JDrawFrame extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         switch( e.getActionCommand() ){
              case CommandNames.COMMAND_PEN_BUTTON:
-                 System.out.println("Presionado Lapiz");
+                panel.setCurrentShapeType(PEN);
+                panel.setTickness(false);
                 break;
             case CommandNames.COMMAND_BRUSH_BUTTON:
-                System.out.println("Presionado Brocha");
+                panel.setCurrentShapeType(PEN);
+                panel.setTickness(true);
                 break;
             case CommandNames.COMMAND_REDO_BUTTON:
                 System.out.println("Presionado Rehacer");
                 break;
             case CommandNames.COMMAND_UNDO_BUTTON:
                 System.out.println("Presionado Deshacer");
+                break;
+            //FORMAS
+            case CommandNames.COMMAND_LINE_BUTTON:
+                panel.setCurrentShapeType(LINE);
+                break;
+            case CommandNames.COMMAND_CIRCLE_BUTTON:
+                panel.setCurrentShapeType(CIRCLE);
+                break;
+            case CommandNames.COMMAND_RECTANGLE_BUTTON:
+                panel.setCurrentShapeType(RECTANGLE);
+                break;
+            //COLORES
+            case CommandNames.COMMAND_COLOR_BLACK:
+                panel.setCurrentColor(Color.BLACK);
+                break;
+            case CommandNames.COMMAND_COLOR_RED:
+                panel.setCurrentColor(Color.RED);
+                break;
+            case CommandNames.COMMAND_COLOR_YELLOW:
+                panel.setCurrentColor(Color.YELLOW);
+                break;
+            case CommandNames.COMMAND_COLOR_BLUE:
+                panel.setCurrentColor(Color.BLUE);
                 break;
         }
     }

@@ -8,12 +8,15 @@ package paintapplication;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import shapes.Line;
+import shapes.Oval;
+import shapes.Rectangle;
 import shapes.Shape;
 
 /**
@@ -24,20 +27,31 @@ class JPaintPanel extends JPanel implements MouseListener, MouseMotionListener{
     
     private int currentShapeType;
     private Shape currentShapeObject;
-    private Color currentShapeColor;
+    private Color currentColor;
+    private int currentSize;
+    
+    private int PEN = 22;
+    private int CIRCLE = 33;
+    private int RECTANGLE = 44;
+    private int LINE = 55;
     
     private ArrayList<Shape> shapes;
     private Line auxLine;
+    private Oval auxOval;
+    private Rectangle auxRectangle;
+    private boolean tickness;
     
     public JPaintPanel(){
         
-        currentShapeType=0;
-        currentShapeObject=null;
-        currentShapeColor=Color.BLACK;
+        currentShapeType = 22;
+        currentShapeObject = null;
+        currentColor = Color.BLACK;
+        currentSize = 1;
+        tickness = false;
         
         shapes = new ArrayList<Shape>();
         
-        super.setBackground( Color.WHITE );
+        super.setBackground(Color.WHITE);
         
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
@@ -50,6 +64,12 @@ class JPaintPanel extends JPanel implements MouseListener, MouseMotionListener{
         if( auxLine != null ){
             auxLine.draw(g);
         }
+        if( auxOval != null ){
+            auxOval.draw(g);
+        }
+        if( auxRectangle != null ){
+            auxRectangle.draw(g);
+        }
         
         for ( int i = 0; i< shapes.size(); i++ )
            shapes.get(i).draw(g);
@@ -59,8 +79,12 @@ class JPaintPanel extends JPanel implements MouseListener, MouseMotionListener{
         currentShapeType=type;
     }
     
-    public void setCurrentShapeColor(Color color) {
-        currentShapeColor=color;
+    public void setTickness( boolean tick ){
+        this.tickness = tick;
+    }
+    
+    public void setCurrentColor(Color color) {
+        currentColor=color;
     }
     
 
@@ -71,18 +95,37 @@ class JPaintPanel extends JPanel implements MouseListener, MouseMotionListener{
 
     @Override
     public void mousePressed(MouseEvent e) {
-        this.auxLine = new Line();
-        this.auxLine.add( e.getPoint() );
-        this.shapes.add(auxLine);
+        if( currentShapeType == PEN ){
+            this.auxLine = new Line();
+            this.auxLine.setColor(currentColor);
+            if( tickness ){
+                this.auxLine.setTickness(5);
+            }
+            this.auxLine.add( e.getPoint() );
+            this.shapes.add(auxLine);
+        }
+        if( currentShapeType == CIRCLE ){
+            this.auxOval = new Oval(e.getX(), e.getY(), e.getX(), e.getY(), currentColor, false);
+        }
+        if( currentShapeType == RECTANGLE ){
+            this.auxRectangle = new Rectangle(e.getX(), e.getY(), e.getX(), e.getY(), currentColor, false);
+        }
+        if( currentShapeType == LINE ){
+        
+        }
         repaint();
-        /*switch (currentShapeType) {
-            
-        }*/
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        
+        if( auxOval != null ){
+            shapes.add( auxOval );
+            auxOval = null;
+        }
+        if( auxRectangle != null ){
+            shapes.add( auxRectangle );
+            auxRectangle = null;
+        }
     }
 
     @Override
@@ -97,7 +140,17 @@ class JPaintPanel extends JPanel implements MouseListener, MouseMotionListener{
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        this.auxLine.add( e.getPoint() );
+        if( currentShapeType == PEN ){
+            this.auxLine.add( e.getPoint() );
+        }
+        if( currentShapeType == CIRCLE ){
+            this.auxOval.setX2(e.getX());
+            this.auxOval.setY2(e.getY());
+        }
+        if( currentShapeType == RECTANGLE ){
+            this.auxRectangle.setX2(e.getX());
+            this.auxRectangle.setY2(e.getY());
+        }
         repaint();
     }
 
