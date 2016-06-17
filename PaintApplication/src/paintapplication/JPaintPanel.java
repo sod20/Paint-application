@@ -8,16 +8,23 @@ package paintapplication;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import shapes.Line;
 import shapes.Oval;
 import shapes.Rectangle;
 import shapes.Shape;
+import shapes.Vector;
 
 /**
  *
@@ -34,11 +41,13 @@ class JPaintPanel extends JPanel implements MouseListener, MouseMotionListener{
     private int CIRCLE = 33;
     private int RECTANGLE = 44;
     private int LINE = 55;
+    private int VECTOR = 66;
     
     private ArrayList<Shape> shapes;
     private Line auxLine;
     private Oval auxOval;
     private Rectangle auxRectangle;
+    private Vector auxVector;
     private boolean tickness;
     
     public JPaintPanel(){
@@ -70,6 +79,9 @@ class JPaintPanel extends JPanel implements MouseListener, MouseMotionListener{
         if( auxRectangle != null ){
             auxRectangle.draw(g);
         }
+        if( auxVector != null ){
+            auxVector.draw(g);
+        }
         
         for ( int i = 0; i< shapes.size(); i++ )
            shapes.get(i).draw(g);
@@ -85,6 +97,18 @@ class JPaintPanel extends JPanel implements MouseListener, MouseMotionListener{
     
     public void setCurrentColor(Color color) {
         currentColor=color;
+    }
+    
+    public void saveTo(File selectedFile){
+        try{
+            BufferedImage bi = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+            Graphics g = bi.getGraphics();
+            this.paint(g);
+            ImageIO.write( bi, "PNG", selectedFile);
+        } 
+        catch (IOException ex){
+            System.out.println("oops!!!! ni siquiera puedo mostrar un mensaje por la ventana.... :-(");
+        }
     }
     
 
@@ -110,8 +134,12 @@ class JPaintPanel extends JPanel implements MouseListener, MouseMotionListener{
         if( currentShapeType == RECTANGLE ){
             this.auxRectangle = new Rectangle(e.getX(), e.getY(), e.getX(), e.getY(), currentColor, false);
         }
-        if( currentShapeType == LINE ){
-        
+        if( currentShapeType == VECTOR ){
+            this.auxVector = new Vector(e.getX(), e.getY(), e.getX(), e.getY(), this.currentColor);
+            this.auxVector.setColor(currentColor);
+            if( tickness ){
+                this.auxVector.setTickness(5);
+            }
         }
         repaint();
     }
@@ -125,6 +153,10 @@ class JPaintPanel extends JPanel implements MouseListener, MouseMotionListener{
         if( auxRectangle != null ){
             shapes.add( auxRectangle );
             auxRectangle = null;
+        }
+        if( auxVector != null ){
+            shapes.add(auxVector);
+            auxVector = null;
         }
     }
 
@@ -150,6 +182,10 @@ class JPaintPanel extends JPanel implements MouseListener, MouseMotionListener{
         if( currentShapeType == RECTANGLE ){
             this.auxRectangle.setX2(e.getX());
             this.auxRectangle.setY2(e.getY());
+        }
+        if( currentShapeType == VECTOR ){
+            this.auxVector.setX2(e.getX());
+            this.auxVector.setY2(e.getY());
         }
         repaint();
     }

@@ -23,7 +23,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class JDrawFrame extends JFrame implements ActionListener{
     
-    private JFileChooser fc;
+    private JFileChooser fileChooser;
     private JPaintPanel panel;
     private JScrollPane scroll;
     
@@ -31,6 +31,7 @@ public class JDrawFrame extends JFrame implements ActionListener{
     private int CIRCLE = 33;
     private int RECTANGLE = 44;
     private int LINE = 55;
+    private int VECTOR = 66;
     
     public JDrawFrame(){
         super( "Aplicación de Dibujo" );
@@ -49,8 +50,8 @@ public class JDrawFrame extends JFrame implements ActionListener{
         super.setExtendedState(JFrame.MAXIMIZED_BOTH);
         super.setMinimumSize( new Dimension(800, 600) );
         
-        this.fc = new JFileChooser();
-        this.fc.addChoosableFileFilter( new FileNameExtensionFilter("Archivos de Imagen", "png", "jpg", "jpeg", "bmp") );
+        this.fileChooser = new JFileChooser();
+        this.fileChooser.addChoosableFileFilter( new FileNameExtensionFilter("Archivos de Imagen", "png", "jpg", "jpeg", "bmp") );
         this.panel = new JPaintPanel();
         this.scroll = new JScrollPane(panel);
         super.setLayout( new BorderLayout() );
@@ -176,12 +177,17 @@ public class JDrawFrame extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         switch( e.getActionCommand() ){
+            case CommandNames.COMMAND_SAVE_BUTTON:
+                int result = this.fileChooser.showSaveDialog(panel);
+                if( result == JFileChooser.APPROVE_OPTION ){
+                    this.panel.saveTo( this.fileChooser.getSelectedFile() );
+                }
+                break;
              case CommandNames.COMMAND_PEN_BUTTON:
                 panel.setCurrentShapeType(PEN);
                 panel.setTickness(false);
                 break;
             case CommandNames.COMMAND_BRUSH_BUTTON:
-                panel.setCurrentShapeType(PEN);
                 panel.setTickness(true);
                 break;
             case CommandNames.COMMAND_REDO_BUTTON:
@@ -192,7 +198,7 @@ public class JDrawFrame extends JFrame implements ActionListener{
                 break;
             //FORMAS
             case CommandNames.COMMAND_LINE_BUTTON:
-                panel.setCurrentShapeType(LINE);
+                panel.setCurrentShapeType(VECTOR);
                 break;
             case CommandNames.COMMAND_CIRCLE_BUTTON:
                 panel.setCurrentShapeType(CIRCLE);
